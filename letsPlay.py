@@ -145,4 +145,3 @@ def result():
         print('K')
 
 result()
-print('this is just a test')
