@@ -1,11 +1,11 @@
 import random
 import pandas as pd
 
+# read in batter and pitcher CSVs
 countRates = pd.read_csv("joey.csv")
 hitRates = pd.read_csv("wil.csv")
 
-
-
+# Create a class for pitchers with name and rates
 class Pitcher():
 
     def __init__(self, first, last, position, fbRate, chRate, cbRate):
@@ -19,6 +19,7 @@ class Pitcher():
     def __str__(self):
         return self.first + " " + self.last
 
+# Spit out array of pitch rates during given count
     def pitchArray(self):
         throwRates = countRates[(countRates['balls'] == balls) & (countRates['strikes'] == strikes)]
         self.fbRate = throwRates.iloc[0]['fbRate']
@@ -26,6 +27,7 @@ class Pitcher():
         self.cbRate = throwRates.iloc[0]['cbRate']
         return [self.fbRate, self.chRate, self.cbRate]
 
+# Create a class for batters with names and hit rates
 class Batter():
 
     def __init__(self, first, last, position, avg, BB, fbHit, chHit, cbHit):
@@ -41,103 +43,68 @@ class Batter():
     def __str__(self):
         return self.first + " " + self.last
 
+# Spit out hit rates given the pitch thrown
     def hitArray(self):
         self.fbHit = hitRates.iloc[0]['rate']
         self.chHit = hitRates.iloc[1]['rate']
         self.cbHit = hitRates.iloc[2]['rate']
         return [self.fbHit, self.chHit, self.cbHit]
 
-    def atBat(self):
-        hits = 0
-        walks = 0
-        ab = 0
-        outProb = 1 - (self.avg + self.BB)
-        for i in range(1000):
-            a = random.choices(['h', 'w', 'o'], [self.avg, self.BB, outProb], k=1)
-            if a == ['h']:
-                ab += 1
-                hits += 1
-            elif a == ['w']:
-                walks += walks
-            elif a == ['o']:
-                ab += 1
-            i += 1
-        totalPA = i
-        battingAvg = hits / ab
-        OBP = (hits + walks) / totalPA
-        print(p1,
-        '|', hits, '/', ab,
-        '|', "{0:.3f}".format(battingAvg), 'AVG',
-        '|', "{0:.3f}".format(OBP), 'OBP')
-
+# Arbitrary hitters and pitchers to test functions
 p1 = Batter('Wil', 'Myers', 'OF', .300, .100, 0, 0, 0)
 p2 = Batter('Eric', 'Hosmer', '1B', .250, .092, 0, 0, 0)
 sp = Pitcher('Joey', 'Lucchesi', 'SP', 0, 0, 0)
 
-
+# Randomly (weighted) choose pitch based on rates given from pitchArray
 def pitch():
-    throw = random.choices(['fb', 'ch', 'cb'], Pitcher.pitchArray(sp), k=1)
+    global throw
+    throw = random.choices(['fb', 'ch', 'cb'], Pitcher.pitchArray(sp), k=1)[0]
     return throw
 
-
-
-
-#I believe issue is in this block
-#maybe something with the return value I don't know
+# Determine if the batter will hit, miss, or ball based on pitch thrown
+# Have to get actual rates for this and determine if pitch is in or out of zone
 def situation():
+    global hit
     pitch()
-    if pitch() == ['fb']:
+    if throw == 'fb':
         hit = random.choices(['hit', 'miss', 'ball'],
                              [Batter.hitArray(p1)[0],
                              (1 - Batter.hitArray(p1)[0])/2,
-                             (1 - Batter.hitArray(p1)[0])/2], k=1)
-        print('test-', hit)
-        return hit
-    elif pitch() == ['ch']:
+                             (1 - Batter.hitArray(p1)[0])/2], k=1)[0]
+    elif throw == 'ch':
         hit = random.choices(['hit', 'miss', 'ball'],
                              [Batter.hitArray(p1)[1],
                              (1 - Batter.hitArray(p1)[1])/2,
-                             (1 - Batter.hitArray(p1)[1])/2], k=1)
-        print('test-', hit)
-        return hit
-    elif pitch() == ['cb']:
+                             (1 - Batter.hitArray(p1)[1])/2], k=1)[0]
+    elif throw == 'cb':
         hit = random.choices(['hit', 'miss', 'ball'],
                              [Batter.hitArray(p1)[2],
                              (1 - Batter.hitArray(p1)[2])/2,
-                             (1 - Batter.hitArray(p1)[2])/2], k=1)
-        print('test-', hit)
-        return hit
+                             (1 - Batter.hitArray(p1)[2])/2], k=1)[0]
     else:
-        return 'something is wrong'
+        hit = 'broke'
+    return hit
 
-
-
-
-
-
-# function somewhat working, but can't get loop to continue after ball
+# Determine count using above functions 
 def result():
     global balls
     global strikes
-    global situation
     balls = 0
     strikes = 0
-    while balls <= 3 & strikes <= 2:
+    while balls <= 3 and strikes <= 2:
         print(balls, '-', strikes)
         situation()
-        if situation() == ['hit']:
-            outcome = 'you got a hit!'
-            print(outcome)
+        if hit == 'hit':
+            print('you got a hit!')
             break
-        elif situation() == ['miss']:
-            strikes += 1
-            outcome = 'strike'
-            print(outcome)
-        elif situation() == ['ball']:
-            balls += 1
-            outcome = 'ball'
-            print(outcome)
 
+        elif hit == 'miss':
+            strikes += 1
+            print('strike')
+
+        elif hit == 'ball':
+            balls += 1
+            print('ball')
 
     if balls == 4:
         print('walk')
@@ -145,4 +112,3 @@ def result():
         print('K')
 
 result()
-print('macTest')
