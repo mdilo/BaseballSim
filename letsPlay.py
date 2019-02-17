@@ -2,6 +2,7 @@ import random
 import pandas as pd
 
 # read in batter and pitcher CSVs
+# need to make these self specific, each player has own rates
 countRates = pd.read_csv("joey.csv")
 hitRates = pd.read_csv("wil.csv")
 
@@ -56,31 +57,31 @@ p2 = Batter('Eric', 'Hosmer', '1B', .250, .092, 0, 0, 0)
 sp = Pitcher('Joey', 'Lucchesi', 'SP', 0, 0, 0)
 
 # Randomly (weighted) choose pitch based on rates given from pitchArray
-def pitch():
+def pitch(pitcher):
     global throw
-    throw = random.choices(['fb', 'ch', 'cb'], Pitcher.pitchArray(sp), k=1)[0]
+    throw = random.choices(['fb', 'ch', 'cb'], Pitcher.pitchArray(pitcher), k=1)[0]
     return throw
 
 # Determine if the batter will hit, miss, or ball based on pitch thrown
 # Have to get actual rates for this and determine if pitch is in or out of zone
-def situation():
+def situation(pitcher,batter):
     global hit
-    pitch()
+    pitch(pitcher)
     if throw == 'fb':
         hit = random.choices(['hit', 'miss', 'ball'],
-                             [Batter.hitArray(p1)[0],
-                             (1 - Batter.hitArray(p1)[0])/2,
-                             (1 - Batter.hitArray(p1)[0])/2], k=1)[0]
+                             [Batter.hitArray(batter)[0],
+                             (1 - Batter.hitArray(batter)[0])/2,
+                             (1 - Batter.hitArray(batter)[0])/2], k=1)[0]
     elif throw == 'ch':
         hit = random.choices(['hit', 'miss', 'ball'],
-                             [Batter.hitArray(p1)[1],
-                             (1 - Batter.hitArray(p1)[1])/2,
-                             (1 - Batter.hitArray(p1)[1])/2], k=1)[0]
+                             [Batter.hitArray(batter)[1],
+                             (1 - Batter.hitArray(batter)[1])/2,
+                             (1 - Batter.hitArray(batter)[1])/2], k=1)[0]
     elif throw == 'cb':
         hit = random.choices(['hit', 'miss', 'ball'],
-                             [Batter.hitArray(p1)[2],
-                             (1 - Batter.hitArray(p1)[2])/2,
-                             (1 - Batter.hitArray(p1)[2])/2], k=1)[0]
+                             [Batter.hitArray(batter)[2],
+                             (1 - Batter.hitArray(batter)[2])/2,
+                             (1 - Batter.hitArray(batter)[2])/2], k=1)[0]
     else:
         hit = 'broke'
     return hit
@@ -91,24 +92,35 @@ def result():
     global strikes
     balls = 0
     strikes = 0
-    while balls <= 3 and strikes <= 2:
-        print(balls, '-', strikes)
-        situation()
-        if hit == 'hit':
-            print('you got a hit!')
+
+    print('PITCHING:', pitcher_list[0])
+    for i in range(len(batter_list)):
+        batter = batter_list[i]
+        print('AT BAT:', batter)
+        while balls <= 3 and strikes <= 2:
+            print(balls, '-', strikes)
+            situation(pitcher, batter)
+            if hit == 'hit':
+                print('you got a hit!')
+                break
+
+            elif hit == 'miss':
+                strikes += 1
+                print('strike')
+
+            elif hit == 'ball':
+                balls += 1
+                print('ball')
+
+        if balls == 4:
+            print('WALK')
+            break
+        elif strikes == 3:
+            print('K')
             break
 
-        elif hit == 'miss':
-            strikes += 1
-            print('strike')
+pitcher_list = [sp]
+batter_list = [p1, p2]
 
-        elif hit == 'ball':
-            balls += 1
-            print('ball')
-
-    if balls == 4:
-        print('walk')
-    elif strikes == 3:
-        print('K')
-
+pitcher = pitcher_list[0]
 result()
