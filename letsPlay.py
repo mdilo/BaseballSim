@@ -52,10 +52,6 @@ class Batter():
         self.cbHit = hitRates.iloc[2]['rate']
         return [self.fbHit, self.chHit, self.cbHit]
 
-# Arbitrary hitters and pitchers to test functions
-p1 = Batter('Wil', 'Myers', 'OF', .300, .100, 0, 0, 0)
-p2 = Batter('Eric', 'Hosmer', '1B', .250, .092, 0, 0, 0)
-sp = Pitcher('Joey', 'Lucchesi', 'SP', 0, 0, 0)
 
 # Randomly (weighted) choose pitch based on rates given from pitchArray
 def pitch(pitcher):
@@ -87,7 +83,7 @@ def situation(pitcher,batter):
         hit = 'broke'
     return hit
 
-# Determine count using above functions 
+# Determine count using above functions
 def result():
     global balls
     global strikes
@@ -119,6 +115,11 @@ def result():
         elif strikes == 3:
             print('K')
             break
+
+# Arbitrary hitters and pitchers to test functions
+p1 = Batter('Wil', 'Myers', 'OF', .300, .100, 0, 0, 0)
+p2 = Batter('Eric', 'Hosmer', '1B', .250, .092, 0, 0, 0)
+sp = Pitcher('Joey', 'Lucchesi', 'SP', 0, 0, 0)
 
 pitcher_list = [sp]
 batter_list = [p1, p2]
