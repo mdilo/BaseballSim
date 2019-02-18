@@ -1,8 +1,8 @@
 import random
 import pandas as pd
 
-# read in batter and pitcher CSVs
-# need to make these self specific, each player has own rates
+# Read in batter and pitcher CSVs
+# Reed to make these self specific, each player has own rates
 countRates = pd.read_csv("joey.csv")
 hitRates = pd.read_csv("wil.csv")
 
@@ -17,6 +17,7 @@ class Pitcher():
         self.chRate = chRate
         self.cbRate = cbRate
 
+    # Gives full name of instance as a string
     def __str__(self):
         return self.first + " " + self.last
 
