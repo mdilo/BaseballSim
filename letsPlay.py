@@ -3,8 +3,8 @@ import pandas as pd
 
 # Read in batter and pitcher CSVs
 # Reed to make these self specific, each player has own rates
-countRates = pd.read_csv("joey.csv")
-hitRates = pd.read_csv("wil.csv")
+countRates = pd.read_csv("CSV_files/joey.csv")
+hitRates = pd.read_csv("CSV_files/wil.csv")
 
 # Create a class for pitchers with name and rates
 class Pitcher():
