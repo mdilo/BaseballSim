@@ -1,6 +1,6 @@
 # Baseball Simulation
 
-This is my attempt at simulating a baseball at bat, game, series, season, or more.
+This is my attempt at simulating a baseball at bat, game, series, season, or more to learn python.
 
 Currently working on simulating an at bat using psudo data and rates.
 
