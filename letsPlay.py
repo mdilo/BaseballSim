@@ -93,6 +93,8 @@ def result():
     print('PITCHING:', pitcher_list[0])
     for i in range(len(batter_list)):
         batter = batter_list[i]
+        balls = 0
+        strikes = 0
         print('AT BAT:', batter)
         while balls <= 3 and strikes <= 2:
             print(balls, '-', strikes)
@@ -104,17 +106,22 @@ def result():
             elif hit == 'miss':
                 strikes += 1
                 print('strike')
-
+                if strikes == 3:
+                    print('K')
+                    break
+                else:
+                    continue
             elif hit == 'ball':
                 balls += 1
                 print('ball')
+                if balls == 4:
+                    print('WALK')
+                    break
+                else:
+                    continue
 
-        if balls == 4:
-            print('WALK')
-            break
-        elif strikes == 3:
-            print('K')
-            break
+
+
 
 # Arbitrary hitters and pitchers to test functions
 p1 = Batter('Wil', 'Myers', 'OF', .300, .100, 0, 0, 0)

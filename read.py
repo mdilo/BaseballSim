@@ -1,9 +1,9 @@
 import pandas as pd
 
 # Read in files
-people = pd.read_csv("people.csv")
-pitchers = pd.read_csv("pitching.csv")
-batters = pd.read_csv("batting.csv")
+people = pd.read_csv("People.csv")
+pitchers = pd.read_csv("Pitching.csv")
+batters = pd.read_csv("Batting.csv")
 
 # Limit "people" database to just first and last names
 people = people[['playerID', 'nameFirst', 'nameLast']]
