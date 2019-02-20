@@ -120,9 +120,6 @@ def result():
                 else:
                     continue
 
-
-
-
 # Arbitrary hitters and pitchers to test functions
 p1 = Batter('Wil', 'Myers', 'OF', .300, .100, 0, 0, 0)
 p2 = Batter('Eric', 'Hosmer', '1B', .250, .092, 0, 0, 0)
