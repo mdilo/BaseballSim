@@ -27,9 +27,7 @@ class Batter():
     def get_avg(self):
         self.playerID = People.locate(self)
         find_person = People.chooseData(self)
-
         avg = find_person.iloc[0]['H'] / find_person.iloc[0]['AB']
-        
         return avg
 
     # Finding individual hit type rates
@@ -59,22 +57,21 @@ def atBat_sim():
     hit_out = random.choices(['hit', 'out'], [avg, missChance], k=1)[0]
     if hit_out == 'hit':
         bases = random.choices(['1B', '2B', '3B', 'HR'], [singleRate, doubleRate, tripleRate, hrRate], k=1)[0]
-    
     elif hit_out == 'out':
         bases = 'OUT'
-
     return bases
 
 
-test = People('Manny', 'Machado', 'batter')
+test = People('Joc', 'Pederson', 'batter')
 
 print(test, '|', People.locate(test), '|', "{0:.3f}".format(Batter.get_avg(test)))
 
 outcome = []
-for i in range(420):
+sampleSize = 420
+for i in range(sampleSize):
     outcome.append(atBat_sim())
 
-simAvg = "{0:.3f}".format((420 - outcome.count('OUT')) / 420)
+simAvg = "{0:.3f}".format((sampleSize - outcome.count('OUT')) / sampleSize)
 print('simAVERAGE: ', simAvg)
 print('SINGLES: ', outcome.count('1B'))
 print('DOUBLES: ', outcome.count('2B'))
