@@ -1,16 +1,25 @@
+# Use to locate and find player averages
+
 import pandas as pd
 
 # Read in files
-people = pd.read_csv("CSV_files/People.csv")
-pitchers = pd.read_csv("CSV_files/Pitching.csv")
-batters = pd.read_csv("CSV_files/Batting.csv")
+def readFiles():
+    global people 
+    global pitchers 
+    global batters 
 
-# Limit "people" database to just first and last names
-people = people[['playerID', 'nameFirst', 'nameLast']]
+    people = pd.read_csv("CSV_files/People.csv")
+    pitchers = pd.read_csv("CSV_files/Pitching.csv")
+    batters = pd.read_csv("CSV_files/Batting.csv")
 
-# Restrict data to 2017
-pitchers = pitchers[(pitchers['yearID'] == 2017)]
-batters = batters[(batters['yearID'] == 2017)]
+    # Limit "people" database to just first and last names
+    people = people[['playerID', 'nameFirst', 'nameLast']]
+
+    # Restrict data to 2017
+    pitchers = pitchers[(pitchers['yearID'] == 2017)]
+    batters = batters[(batters['yearID'] == 2017)]
+
+readFiles()
 
 class People():
 
@@ -29,19 +38,19 @@ class People():
         return self.playerID
 
 # Determine which database to use and return player BAOpp or BA
-    def get_avg(self):
+    def chooseData(self):
+        global find_person
+
+        self.playerID = People.locate(self)
         if self.position == 'pitcher':
             find_person = pitchers[(pitchers['playerID'] == self.playerID)]
-            avg = find_person.iloc[0]['BAOpp']
 
         elif self.position == 'batter':
             find_person = batters[(batters['playerID'] == self.playerID)]
-            avg = find_person.iloc[0]['H'] / find_person.iloc[0]['AB']
 
-        return "{0:.3f}".format(avg)
+        return find_person
 
 test1 = People('Aaron', 'Nola', 'pitcher')
-test2 = People('Wil', 'Myers', 'batter')
+test2 = People('Eric', 'Hosmer', 'batter')
 
-print(test1, People.locate(test1), People.get_avg(test1))
-print(test2, People.locate(test2), People.get_avg(test2))
+# print(test1, People.locate(test1), People.chooseData(test1))
