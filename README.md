@@ -14,3 +14,5 @@ WORK LOG:
 TODO:
  Figure out math for batter batting avg and pitcher "opposing batting avg"
  Create simple simulation with these averages 
+ 
+ [2/21] - created a batter simulation using real data. Simulate a whole season of at bats and count 1b 2b 3b hr
