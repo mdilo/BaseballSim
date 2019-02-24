@@ -62,7 +62,7 @@ def atBat_sim():
     return bases
 
 
-test = People('Joc', 'Pederson', 'batter')
+test = People('Odubel', 'Herrera', 'batter')
 
 print(test, '|', People.locate(test), '|', "{0:.3f}".format(Batter.get_avg(test)))
 
@@ -73,6 +73,7 @@ for i in range(sampleSize):
 
 simAvg = "{0:.3f}".format((sampleSize - outcome.count('OUT')) / sampleSize)
 print('simAVERAGE: ', simAvg)
+print('At Bats: ', sampleSize)
 print('SINGLES: ', outcome.count('1B'))
 print('DOUBLES: ', outcome.count('2B'))
 print('TRIPLES: ', outcome.count('3B'))
