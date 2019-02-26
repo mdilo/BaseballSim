@@ -79,4 +79,4 @@ print('DOUBLES: ', outcome.count('2B'))
 print('TRIPLES: ', outcome.count('3B'))
 print('HOMERUNS: ', outcome.count('HR'))
 
-# print('Time to complete execution - ', datetime.now() - startTime)
+print('Time to complete execution - ', datetime.now() - startTime)
